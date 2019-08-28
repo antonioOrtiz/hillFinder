@@ -31,8 +31,6 @@ class RegisterForm extends Component {
     this.setState({isLoading: false})
   }
 
-
-
   handleChange(event) {
     var { name, value } = event.target;
     this.setState({
@@ -120,7 +118,7 @@ class RegisterForm extends Component {
         console.log(error);
       });
 
-    setTimeout(() => { this.setState({ username: '', password: '' }) })
+   setTimeout(() => { this.setState({ username: '', password: '', formSuccess: false  }) },5000)
 
   }
 
