@@ -18,9 +18,7 @@ export default function MyMap({getAddressFromLatLong, hillfinderFormButtonRef, s
   useEffect(() => {
     hillfinderFormButtonRef.current = clearMarkers;
 
-    return() => {
-        hillfinderFormButtonRef.current = null;
-    }
+    return() => hillfinderFormButtonRef.current = null;
   });
 
 var greenIcon = new L.Icon({

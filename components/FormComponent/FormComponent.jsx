@@ -3,7 +3,7 @@ import { useState, useEffect, useContext, useRef } from 'react';
 import MyHeader from '../Header/Header.jsx';
 import GenericInputForm from './FormElements.jsx';
 
-import { Button, Card, Header,Icon, Input, Segment, Grid,Feed, Divider, Message } from 'semantic-ui-react';
+import { Button, Card, Header, Form, Icon, Transition, Segment, Grid, Divider, Message } from 'semantic-ui-react';
 
 import {
   logInUser,
@@ -12,6 +12,9 @@ import {
   resetUserAcoountVerified,
   errorLoading
 } from '../../store/reducers/users/index';
+
+import L from "leaflet";
+import LCG from 'leaflet-control-geocoder';
 
 import { validateInputs } from '../../utils/index';
 
@@ -22,7 +25,6 @@ const source = CancelToken.source();
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container } from 'next/app';
 import UserContext from '../UserContext/UserContext.jsx';
 
 import dynamic from 'next/dynamic';
@@ -43,7 +45,7 @@ function FormComponent({
 }) {
   /* This is an object which is used to store the relevant form views for each page/component  */
   var Forms = {
-    Hillfinders: [isHillfindersForm],
+    Hillfinders: [isHillfindersForm, findMyHillSubmit],
     Confirmation: [isConfirmation],
     ForgotPassword: [isForgotPasswordForm, forgotPasswordSubmit],
     Login: [isLoginForm, loginSubmit],
@@ -52,6 +54,13 @@ function FormComponent({
   };
 
   var [duration, setDuration] = useState(500);
+
+  var [currentLocation, setCurrentLocation] = useState('');
+  var [currentLocationError, setCurrentLocationError] = useState(false);
+  var [currentLocationFeedback, setCurrentLocationFeedback] = useState('');
+  var [currentDestination, setCurrentDestination] = useState('');
+  var [currentDestinationError, setDestinationError] = useState(false);
+  var [currentDestinationFeedback, setCurrentDestinationFeedback] = useState('');
   var [username, setUsername] = useState('');
   var [usernameFeedback, setUsernameFeedback] = useState('');
   var [usernameError, setUsernameError] = useState(false);
@@ -73,13 +82,11 @@ function FormComponent({
   var { userId, setUserId } = useContext(UserContext);
 
   var { userId, setUserId, userAvatar, setUserAvatar } = useContext(UserContext);
-  var [current_location, setCurrentLocation] = useState('');
-  var [current_destination, setCurrentDestination] = useState('');
 
 
-  function isHillfindersForm() {
+function isHillfindersForm() {
 
-     var hillfinderFormButtonRef = useRef();
+  var hillfinderFormButtonRef = useRef();
 
   function handleClick (){
     return hillfinderFormButtonRef.current();
@@ -89,7 +96,6 @@ function FormComponent({
     if (input == 0) setCurrentLocation(address)
     else setCurrentDestination(address)
    }
-
 
     return (
     <>
@@ -101,54 +107,67 @@ function FormComponent({
       <Grid container columns={1}  relaxed stackable>
         <Grid.Column>
           <Segment>
+            <Form
+                error={formError}
+                size="large"
+                onSubmit={e => handleSubmit(e, formType)}
+              >
             <Card.Content>
-              <Segment  secondary>
-                <Card fluid>
-                  <Card.Content>
-                    <Grid.Column>
-                      <p style={{ fontSize: '1.33em' }}>Where you are...</p>
-                        <Input name="current_location" fluid icon="search" value={current_location} onChange={e => handleChange(e)}  placeholder="Current location..." />
-                    </Grid.Column>
-                  </Card.Content>
-                </Card>
-                <Card fluid>
-                  <Card.Content>
-                    <Grid.Column>
+              <Card fluid>
+                <Card.Content>
+                  <Grid.Column>
+                    <p style={{ fontSize: '1.33em' }}>Where you are...</p>
+                      <Form.Input name="currentLocation" fluid icon="search" value={currentLocation} onChange={e => handleChange(e)}  placeholder="Current location..." error={currentLocationError}/>
+                    <Transition
+                      visible={currentLocationError}
+                      animation="scale"
+                      duration={duration}
+                    >
+                    <Message error content={currentLocationFeedback} />
+                  </Transition>
+                  </Grid.Column>
+                </Card.Content>
+              </Card>
+              <Card fluid>
+               <Card.Content>
+                  <Grid.Column>
                     <p style={{ fontSize: '1.33em' }}>
                     Where you wanna go; Hopefully on a downhill...
                   </p>
-                  <Input name="current_destination" fluid icon="search" value={current_destination} onChange={e => handleChange(e)} placeholder="Destination..." />
-                    </Grid.Column>
-                  </Card.Content>
-                </Card>
-                    <Segment textAlign="center" color='green'>
-                      <Button color="green"  size="large" >Find my hill!</Button>
-                    <Button onClick={handleClick} color="red"  size="large" >Clear Markers</Button>
-                    </Segment>
+                  <Form.Input name="currentDestination" fluid icon="search" value={currentDestination} onChange={e => handleChange(e)} placeholder="Destination..." />
+                    <Transition
+                      visible={currentDestinationError}
+                      animation="scale"
+                      duration={duration}
+                    >
+                    <Message error content={currentDestinationError} />
+                  </Transition>
+                  </Grid.Column>
+                </Card.Content>
+               </Card>
+                <Segment textAlign="center" color='green'>
+                 <Button disabled={disableButton} color="green"  size="large" >Find my hill!</Button>
+                 <Button onClick={handleClick} color="red"  size="large" >Clear Markers</Button>
                 </Segment>
-              </Card.Content>
-          </Segment>
-
-        <Segment>
-          <Grid.Column>
-          <Segment  secondary>
+            </Card.Content>
+            <Segment secondary>
             <Card fluid>
               <Card.Content>
-                 <Divider horizontal>
+                <Divider horizontal>
                   <Header as='h4'>
                     <Icon name='map' color="green" />
                     Your map!
                   </Header>
                 </Divider>
-
-               <MyMap setCurrentLocation={setCurrentLocation} setCurrentDestination={setCurrentDestination} hillfinderFormButtonRef={hillfinderFormButtonRef} getAddressFromLatLong={getAddressFromLatLong}/>
+              <MyMap setCurrentLocation={setCurrentLocation} setCurrentDestination={setCurrentDestination} hillfinderFormButtonRef={hillfinderFormButtonRef} getAddressFromLatLong={getAddressFromLatLong}/>
               </Card.Content>
             </Card>
           </Segment>
-        </Grid.Column>
-          </Segment>
-        </Grid.Column>
-      </Grid>
+          </Form>
+        </Segment>
+
+    </Grid.Column>
+  </Grid>
     </>
     );
   }
@@ -306,6 +325,16 @@ function FormComponent({
         responseMessage={responseMessage}
       />
     );
+  }
+
+  function findMyHillSubmit(){
+   console.log('the hill finding has begun!');
+    var geocoder = new L.Control.geocoder();
+
+    geocoder.options.geocoder(latLng, 5, (address)=>{
+      getAddressFromLatLong(marker, address[0].name)
+    }, null)
+
   }
 
   function forgotPasswordSubmit() {
@@ -506,16 +535,15 @@ function FormComponent({
       setPasswordConfirmation(e.target.value);
     }
 
-    if (e.target.name === 'current_location') {
+    if (e.target.name === 'currentLocation') {
       console.log(e.target.value)
       setCurrentLocation(e.target.value);
     }
 
-     if (e.target.name === 'current_destination') {
+     if (e.target.name === 'currentDestination') {
       console.log(e.target.value)
       setCurrentDestination(e.target.value);
     }
-
   }
 
   function handleSubmit(event, formType) {
@@ -523,6 +551,12 @@ function FormComponent({
 
     validateInputs(
       formType,
+      currentLocationError,
+      setCurrentLocationError,
+      setCurrentLocationFeedback,
+      currentDestinationError,
+      setDestinationError,
+      setCurrentDestinationFeedback,
       username,
       setUsernameError,
       setUsernameFeedback,

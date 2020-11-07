@@ -13,19 +13,25 @@ export function getWidthFactory(isMobileFromSSR) {
 }
 
 export function validateInputs(
-  formType,
-  username,
-  setUsernameError,
-  setUsernameFeedback,
-  password,
-  password_confirmation,
-  setPasswordConfirmationError,
-  setPasswordConfirmationFeedback,
-  setPasswordError,
-  setPasswordFeedback,
-  setDisableButton,
-  setFormSuccess,
-  setFormError
+formType,
+currentLocationError,
+setCurrentLocationError,
+setCurrentLocationFeedback,
+currentDestinationError,
+setDestinationError,
+setCurrentDestinationFeedback,
+username,
+setUsernameError,
+setUsernameFeedback,
+password,
+password_confirmation,
+setPasswordConfirmationError,
+setPasswordConfirmationFeedback,
+setPasswordError,
+setPasswordFeedback,
+setDisableButton,
+setFormSuccess,
+setFormError
 ) {
   function getFormValidation(formType) {
     function isLoginOrRegistration() {
@@ -79,53 +85,50 @@ export function validateInputs(
         });
     }
 
-    function isConfirmation() {
-      validate(data, schema, messages)
-        .then(success => {
-          console.log('success ', success);
-          if (success.password === success.password_confirmation) {
-            setDisableButton(false),
-              setFormSuccess(true),
-              setFormError(false),
-              setPasswordError(false),
-              setPassword_confirmationError(false);
-          }
-        })
-        .catch(errors => {
-          if (errors[0].field === 'password') {
-            setPasswordError(true);
-            setPasswordFeedBack(errors[0].message);
-            setDisableButton(true);
-            setFormSuccess(false);
-            setFormError(true);
-          }
+    // function isConfirmation() {
+    //   validate(data, schema, messages)
+    //     .then(success => {
+    //       console.log('success ', success);
+    //       if (success.password === success.password_confirmation) {
+    //         setDisableButton(false),
+    //           setFormSuccess(true),
+    //           setFormError(false),
+    //           setPasswordError(false),
+    //           setPassword_confirmationError(false);
+    //       }
+    //     })
+    //     .catch(errors => {
+    //       if (errors[0].field === 'password') {
+    //         setPasswordError(true);
+    //         setPasswordFeedBack(errors[0].message);
+    //         setDisableButton(true);
+    //         setFormSuccess(false);
+    //         setFormError(true);
+    //       }
 
-          if (errors[0].field !== 'password') {
-            setPasswordError(false);
-            setPasswordFeedBack('');
-          }
+    //       if (errors[0].field !== 'password') {
+    //         setPasswordError(false);
+    //         setPasswordFeedBack('');
+    //       }
 
-          if (errors[0].field === 'password_confirmation') {
-            setPasswordConfirmationError(false);
-            setPasswordConfirmationFeedback(errors[0].message);
-            setDisableButton(true);
-            setFormSuccess(false);
-            setFormError(true);
-          }
+    //       if (errors[0].field === 'password_confirmation') {
+    //         setPasswordConfirmationError(false);
+    //         setPasswordConfirmationFeedback(errors[0].message);
+    //         setDisableButton(true);
+    //         setFormSuccess(false);
+    //         setFormError(true);
+    //       }
 
-          if (errors[0].field !== 'password_confirmation') {
-            setPasswordConfirmationError(false);
-            setPasswordConfirmationFeedback('');
-          }
-        });
-    }
+    //       if (errors[0].field !== 'password_confirmation') {
+    //         setPasswordConfirmationError(false);
+    //         setPasswordConfirmationFeedback('');
+    //       }
+    //     });
+    // }
 
     function isForgotPassword() {
       var data = {
         username: username
-      };
-      var sanitizeSchema = {
-        username: 'normalize_email'
       };
       var schema = {
         username: 'email'
@@ -198,11 +201,49 @@ export function validateInputs(
         });
     }
 
+    function isHillFinder() {
+      var data = {
+        currentLocation: currentLocation,
+        currentDestination: currentDestination
+      };
+      var schema = {
+        currentLocation: 'required|string',
+        currentDestination: 'required|string'
+      };
+      var messages = {
+        required: 'Make sure to enter the field value',
+      };
+
+      validateAll(data, schema, messages)
+        .then(success => {
+          console.log('success ', success);
+          if (success.currentLocation) {
+            setCurrentLocationError(false);
+            setDisableButton(false);
+          }
+          if (success.currentDestination) {
+            setDestinationError(false);
+            setDisableButton(false);
+          }
+
+        })
+        .catch(errors => {
+          if (errors[0].field === 'currentLocation' || errors[0].field === 'currentDestination') {
+            setCurrentLocationError(true);
+            setDestinationError(true)
+            setCurrentLocationFeedback(errors[0].message);
+            setCurrentDestinationFeedback(errors[0].message);
+          }
+
+        });
+    }
+
     var Forms = {
       Login: isLoginOrRegistration,
       Registration: isLoginOrRegistration,
       ForgotPassword: isForgotPassword,
-      UpdatePassword: isUpdatePassword
+      UpdatePassword: isUpdatePassword,
+      Hillfinders: isHillFinder
     };
 
     try {

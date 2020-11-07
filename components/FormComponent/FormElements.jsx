@@ -54,7 +54,6 @@ export default function GenericInputForm({
               <Form
                 size="large"
                 onSubmit={e => handleSubmit(e, formType)}
-                error={formError}
               >
                 <Segment stacked>
                   <Form.Input
