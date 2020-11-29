@@ -15,10 +15,10 @@ import 'font-awesome/css/font-awesome.min.css';
 import '../styles/styles.scss';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css'
-import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css'
 import 'leaflet-geosearch/assets/css/leaflet.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
-
+import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css'
+// import 'leaflet-geosearch/dist/geosearch.css'
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     const pageProps = Component.getInitialProps
