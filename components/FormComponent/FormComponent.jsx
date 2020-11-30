@@ -22,7 +22,6 @@ const source = CancelToken.source();
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container } from 'next/app';
 import UserContext from '../UserContext/UserContext.jsx';
 
 import dynamic from 'next/dynamic';
@@ -82,17 +81,15 @@ function FormComponent({
      var hillfinderClearButtonRef = useRef();
      var hillfinderFindMyHillButtonRef = useRef();
 
-  function handleFindHillButton (e){
-   return hillfinderFindMyHillButtonRef.current();
-  };
+    function handleFindHillButton (e){
+    return hillfinderFindMyHillButtonRef.current();
+    };
 
   function handleClearButton (e){
     return hillfinderClearButtonRef.current();
   };
 
-
    function getAddressFromLatLong(input, address){
-
     console.log("input, address ", input, address);
     if (input == 0) setCurrentLocation(address)
     else setCurrentDestination(address)
@@ -101,63 +98,24 @@ function FormComponent({
 
     return (
     <>
-      <Grid container columns={1} relaxed stackable>
+      <Grid container columns={1} stackable style={{height: '100vh'}}>
         <Grid.Column>
           <MyHeader content="Go find a hill!" margin={'0'} textAlign={'center'} />
-        </Grid.Column>
-      </Grid>
-      <Grid container columns={1}  relaxed stackable>
-        <Grid.Column>
-          <Segment>
-            <Card.Content>
-              <Segment  secondary>
-                <Card fluid>
-                  <Card.Content>
-                    <Grid.Column>
-                      <p style={{ fontSize: '1.33em' }}>Where you are...</p>
-                        <Input name="current_location" fluid icon="search" value={current_location} onChange={e => handleChange(e)}  placeholder="Current location..." />
-                    </Grid.Column>
-                  </Card.Content>
-                </Card>
-                <Card fluid>
-                  <Card.Content>
-                    <Grid.Column>
-                    <p style={{ fontSize: '1.33em' }}>
-                    Where you wanna go; Hopefully on a downhill...
-                  </p>
-                  <Input name="current_destination" fluid icon="search" value={current_destination} onChange={e => handleChange(e)} placeholder="Destination..." />
-                    </Grid.Column>
-                  </Card.Content>
-                </Card>
-                    <Segment textAlign="center" color='green'>
-                      <Button onClick={handleFindHillButton} color="green"  size="large" >Find my hill!</Button>
-                      <Button onClick={handleClearButton} color="red"  size="large" >Clear Markers</Button>
-                    </Segment>
-                </Segment>
-              </Card.Content>
-          </Segment>
-
-        <Segment>
-          <Grid.Column>
-          <Segment  secondary>
             <Card fluid>
-              <Card.Content>
-                 <Divider horizontal>
-                  <Header as='h4'>
-                    <Icon name='map' color="green" />
-                    Your map!
-                  </Header>
-                </Divider>
+            <Card.Content>
+              <Divider horizontal>
+                <Header as='h4'>
+                  <Icon name='map' color="green" />
+                  Your map!
+                </Header>
+              </Divider>
 
-               <MyMap locationDestinationInputFields={{current_location, current_destination}} setCurrentLocation={setCurrentLocation} setCurrentDestination={setCurrentDestination} hillfinderRefs={{hillfinderFindMyHillButtonRef, hillfinderClearButtonRef}} getAddressFromLatLong={getAddressFromLatLong}/>
-              </Card.Content>
-            </Card>
-          </Segment>
-        </Grid.Column>
-          </Segment>
+            <MyMap locationDestinationInputFields={{current_location, current_destination}} setCurrentLocation={setCurrentLocation} setCurrentDestination={setCurrentDestination} hillfinderRefs={{hillfinderFindMyHillButtonRef, hillfinderClearButtonRef}} getAddressFromLatLong={getAddressFromLatLong}/>
+            </Card.Content>
+          </Card>
         </Grid.Column>
       </Grid>
-    </>
+   </>
     );
   }
 
