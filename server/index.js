@@ -125,7 +125,10 @@ async function start() {
 
   server.use(cors());
   server.use('/users', require('./users'));
-
+  server.get('/service-worker.js', (req, res) => {
+    console.log('__dirname; ', __dirname);
+    res.sendFile(path.resolve('./public', 'service-worker.js'));
+  });
   server.get('/*', async (req, res, next) => {
     try {
       const pathName = req.originalUrl;
@@ -167,15 +170,9 @@ async function start() {
 
   if (process.env.NODE_ENV === 'production') {
     server.use(express.static('.next/static'));
-
-    // handle GET request to /service-worker.js
-    // if (pathname === '/service-worker.js') {
-    //   const filePath = join(__dirname, '.next', pathname);
-
-    //   app.serveStatic(req, res, filePath);
-    // } else {
-    //   handle(req, res, parsedUrl);
-    // }
+    server.get('/service-worker.js', (req, res) => {
+      res.sendFile(path.resolve(__dirname, './public', 'service-worker.js'));
+    });
 
     server.get('*', (req, res) => {
       res.sendFile(path.resolve(__dirname, '.next/static', 'index.html'));
