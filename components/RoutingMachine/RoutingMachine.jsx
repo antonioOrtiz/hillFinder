@@ -1,7 +1,7 @@
-import { MapLayer } from 'react-leaflet';
+import { MapLayer } from 'react-leaflet-universal';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
-import { withLeaflet } from 'react-leaflet';
+import { withLeaflet } from 'react-leaflet-universal';
 import UserContextDispatch from '../Context/UserContext.jsx';
 import { Dimmer, Loader } from 'semantic-ui-react';
 import { isEqual } from 'lodash';

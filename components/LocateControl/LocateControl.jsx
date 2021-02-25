@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { withLeaflet } from 'react-leaflet';
+import { withLeaflet } from 'react-leaflet-universal';
 import Locate from 'leaflet.locatecontrol';
 
 function LocateControl({ startDirectly, leaflet }) {
