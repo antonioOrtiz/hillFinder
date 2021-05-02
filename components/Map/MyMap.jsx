@@ -88,21 +88,20 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
     //   useMapBounds: false
     // });
 
-    console.log('ELG ', ELG);
-    var searchControl = ELG.geosearch({
-      position: 'topright',
-      useMapBounds: false,
-      providers: [
-        ELG.arcgisOnlineProvider({
-          apikey: process.env.ESRI_API_KEY // replace with your api key - https://developers.arcgis.com
-        })
-      ]
-    }).addTo(map);
-
     console.log('mounted');
     if (mapRef && mapRef.current) {
       if (mapRef != null) {
         const map = mapRef.current.leafletElement;
+        console.log('ELG ', ELG);
+        var searchControl = ELG.geosearch({
+          position: 'topright',
+          useMapBounds: false,
+          providers: [
+            ELG.arcgisOnlineProvider({
+              apikey: process.env.ESRI_API_KEY // replace with your api key - https://developers.arcgis.com
+            })
+          ]
+        }).addTo(map);
         searchControl.addTo(map);
 
         var cb = e => handleWaypointsOnMapRef.current(e); // then use most recent cb value
