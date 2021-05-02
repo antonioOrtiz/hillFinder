@@ -89,10 +89,10 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
     // });
 
     console.log('ELG ', ELG);
-    var searchControl = L.esri.Geocoding.geosearch({
+    var searchControl = ELG.geosearch({
       useMapBounds: false,
       providers: [
-        L.esri.Geocoding.arcgisOnlineProvider({
+        ELG.arcgisOnlineProvider({
           apikey: process.env.ESRI_API_KEY // replace with your api key - https://developers.arcgis.com
         })
       ]
