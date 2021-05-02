@@ -84,9 +84,18 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
   }, [isMobile, isDesktop]);
 
   useEffect(() => {
-    var searchControl = new ELG.Geosearch({
-      useMapBounds: false
-    });
+    // var searchControl = new ELG.Geosearch({
+    //   useMapBounds: false
+    // });
+
+    var searchControl = L.esri.Geocoding.geosearch({
+      useMapBounds: false,
+      providers: [
+        L.esri.Geocoding.arcgisOnlineProvider({
+          apikey: process.env.ESRI_API_KEY // replace with your api key - https://developers.arcgis.com
+        })
+      ]
+    }).addTo(map);
 
     console.log('mounted');
     if (mapRef && mapRef.current) {
