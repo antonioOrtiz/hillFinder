@@ -90,6 +90,7 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
 
     console.log('ELG ', ELG);
     var searchControl = ELG.geosearch({
+      position: 'topright',
       useMapBounds: false,
       providers: [
         ELG.arcgisOnlineProvider({
