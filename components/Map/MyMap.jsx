@@ -113,23 +113,21 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
     //   ]
     // });
 
-    var searchControl = ELG.geosearch({
-      position: 'topright',
-
-      useMapBounds: false,
-      providers: [
-        ELG.arcgisOnlineProvider({
-          apikey: process.env.ESRI_API_KEY // replace with your api key - https://developers.arcgis.com
-        })
-      ]
-    }).addTo(map);
-
     console.log('mounted');
     if (mapRef && mapRef.current) {
       if (mapRef != null) {
         const map = mapRef.current.leafletElement;
-        searchControl.addTo(map);
 
+        var searchControl = ELG.geosearch({
+          position: 'topright',
+
+          useMapBounds: false,
+          providers: [
+            ELG.arcgisOnlineProvider({
+              apikey: process.env.ESRI_API_KEY // replace with your api key - https://developers.arcgis.com
+            })
+          ]
+        }).addTo(map);
         var cb = e => handleWaypointsOnMapRef.current(e); // then use most recent cb value
 
         searchControl.on('results', cb);
