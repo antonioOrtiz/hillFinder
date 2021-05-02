@@ -2,9 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
 import L from 'leaflet';
-// import * as ELG from 'esri-leaflet-geocoder';
-
-import EsriLeafletGeoSearch from 'react-esri-leaflet/v2/plugins/EsriLeafletGeoSearch';
+import * as ELG from 'esri-leaflet-geocoder';
 
 import Control from 'react-leaflet-control';
 // import MapboxLayer from '../MapboxLayer/MapboxLayer.jsx';
@@ -85,49 +83,76 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
     }
   }, [isMobile, isDesktop]);
 
-  // useEffect(() => {
-  //   // var searchControl = new ELG.Geosearch({
-  //   //   useMapBounds: false
-  //   // });
+  useEffect(() => {
+    // const searchControl = L.esri.Geocoding.geosearch({
+    //   position: 'topright',
+    //   placeholder: 'Enter an address or place e.g. 1 York St',
+    //   useMapBounds: false,
+    //   providers: [
+    //     L.esri.Geocoding.arcgisOnlineProvider({
+    //       apikey: process.env.ESRI_API_KEY
+    //     })
+    //   ]
+    // }).addTo(map);
 
-  //   console.log('mounted');
-  //   if (mapRef && mapRef.current) {
-  //     if (mapRef != null) {
-  //       const map = mapRef.current.leafletElement;
-  //       console.log('ELG ', ELG);
-  //       var searchControl = ELG.geosearch({
-  //         position: 'topright',
-  //         useMapBounds: false,
-  //         providers: [
-  //           ELG.arcgisOnlineProvider({
-  //             apikey: process.env.ESRI_API_KEY // replace with your api key - https://developers.arcgis.com
-  //           })
-  //         ]
-  //       }).addTo(map);
+    // var searchControl = L.esri.Geocoding.geosearch({
+    //   providers: [
+    //     L.esri.Geocoding.arcgisOnlineProvider({
+    //       // API Key to be passed to the ArcGIS Online Geocoding Service
+    //       apikey: process.env.ESRI_API_KEY
+    //     })
+    //   ]
+    // }).addTo(map);
 
-  //       var cb = e => handleWaypointsOnMapRef.current(e); // then use most recent cb value
+    // var searchControl = ELG.geosearch({
+    //   useMapBounds: false,
+    //   providers: [
+    //     ELG.arcgisOnlineProvider({
+    //       apikey: process.env.ESRI_API_KEY
+    //     })
+    //   ]
+    // });
 
-  //       searchControl.on('results', cb);
+    var searchControl = ELG.geosearch({
+      position: 'topright',
 
-  //       if (Object.keys(map).length === 0) {
-  //         dispatch({
-  //           type: 'setMap',
-  //           payload: {
-  //             currentMap: stringify(map)
-  //           }
-  //         });
-  //       }
-  //       setMap(map); //hook to set map
-  //       //this.setState({map: map});
+      useMapBounds: false,
+      providers: [
+        ELG.arcgisOnlineProvider({
+          apikey: process.env.ESRI_API_KEY // replace with your api key - https://developers.arcgis.com
+        })
+      ]
+    }).addTo(map);
 
-  //       console.log('map:', { map });
-  //     }
-  //   }
+    console.log('mounted');
+    if (mapRef && mapRef.current) {
+      if (mapRef != null) {
+        const map = mapRef.current.leafletElement;
+        searchControl.addTo(map);
 
-  //   return () => {
-  //     searchControl.off('results', cb);
-  //   };
-  // }, []);
+        var cb = e => handleWaypointsOnMapRef.current(e); // then use most recent cb value
+
+        searchControl.on('results', cb);
+
+        if (Object.keys(map).length === 0) {
+          dispatch({
+            type: 'setMap',
+            payload: {
+              currentMap: stringify(map)
+            }
+          });
+        }
+        setMap(map); //hook to set map
+        //this.setState({map: map});
+
+        console.log('map:', { map });
+      }
+    }
+
+    return () => {
+      searchControl.off('results', cb);
+    };
+  }, []);
 
   useEffect(() => {
     handleWaypointsOnMapRef.current = handleWaypointsOnMap;
@@ -275,16 +300,6 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
           process.env.MAPBOX_STYLE_ID
         }/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.MAPBOX_ACCESS_TOKEN}`}
         attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
-      />
-      <EsriLeafletGeoSearch
-        useMapBounds={false}
-        position="topright"
-        eventHandlers={{
-          results: () => {
-            var cb = e => handleWaypointsOnMapRef.current(e);
-            () => cb();
-          }
-        }}
       />
       <Control position="bottomleft">
         <div className="leaflet-bar leaflet-control remove-marker-container">
