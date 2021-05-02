@@ -88,6 +88,7 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
     //   useMapBounds: false
     // });
 
+    console.log('ELG ', ELG);
     var searchControl = L.esri.Geocoding.geosearch({
       useMapBounds: false,
       providers: [
