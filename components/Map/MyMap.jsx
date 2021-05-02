@@ -50,7 +50,6 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
   } = state;
 
   useEffect(() => {
-    console.log('isMobile isDesktop ', isMobile, isDesktop);
     if (map.getCenter) {
       if (isMobile) {
         dispatch({
@@ -84,35 +83,6 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
   }, [isMobile, isDesktop]);
 
   useEffect(() => {
-    // const searchControl = L.esri.Geocoding.geosearch({
-    //   position: 'topright',
-    //   placeholder: 'Enter an address or place e.g. 1 York St',
-    //   useMapBounds: false,
-    //   providers: [
-    //     L.esri.Geocoding.arcgisOnlineProvider({
-    //       apikey: process.env.ESRI_API_KEY
-    //     })
-    //   ]
-    // }).addTo(map);
-
-    // var searchControl = L.esri.Geocoding.geosearch({
-    //   providers: [
-    //     L.esri.Geocoding.arcgisOnlineProvider({
-    //       // API Key to be passed to the ArcGIS Online Geocoding Service
-    //       apikey: process.env.ESRI_API_KEY
-    //     })
-    //   ]
-    // }).addTo(map);
-
-    // var searchControl = ELG.geosearch({
-    //   useMapBounds: false,
-    //   providers: [
-    //     ELG.arcgisOnlineProvider({
-    //       apikey: process.env.ESRI_API_KEY
-    //     })
-    //   ]
-    // });
-
     console.log('mounted');
     if (mapRef && mapRef.current) {
       if (mapRef != null) {
@@ -140,9 +110,7 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
             }
           });
         }
-        setMap(map); //hook to set map
-        //this.setState({map: map});
-
+        setMap(map);
         console.log('map:', { map });
       }
     }
