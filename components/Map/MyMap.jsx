@@ -102,7 +102,6 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
             })
           ]
         }).addTo(map);
-        searchControl.addTo(map);
 
         var cb = e => handleWaypointsOnMapRef.current(e); // then use most recent cb value
 
