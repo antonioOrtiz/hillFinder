@@ -276,7 +276,16 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
         }/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.MAPBOX_ACCESS_TOKEN}`}
         attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
       />
-      <EsriLeafletGeoSearch useMapBounds={false} position="topright" />
+      <EsriLeafletGeoSearch
+        useMapBounds={false}
+        position="topright"
+        eventHandlers={{
+          results: () => {
+            var cb = e => handleWaypointsOnMapRef.current(e);
+            () => cb();
+          }
+        }}
+      />
       <Control position="bottomleft">
         <div className="leaflet-bar leaflet-control remove-marker-container">
           <a
