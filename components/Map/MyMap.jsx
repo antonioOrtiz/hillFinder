@@ -9,27 +9,13 @@ import Control from 'react-leaflet-control';
 import Routing from '../RoutingMachine/RoutingMachine.jsx';
 import LocateControl from '../LocateControl/LocateControl.jsx';
 import { stringify } from 'flatted';
-import { isEqual } from 'lodash';
 
 import { userState, userDispatch } from '../Context/UserContext.jsx';
 import UIContext from '../Context/UIContext.jsx';
+import { Map, TileLayer } from 'react-leaflet-universal';
+var { currentMapZoom, currentMapCenter } = state;
 
-function currentMapViewPropsAreEqual(prevProps, nextProps) {
-  console.log('prevProps, nextProps ', prevProps, nextProps);
-
-  console.log(
-    'isEqual(prevProps.currentMapCenter, nextProps.currentMapCenter) && prevProps.currentMapZoom === nextProps.currentMapZoom ',
-    isEqual(prevProps.currentMapCenter, nextProps.currentMapCenter) === true &&
-      prevProps.currentMapZoom === nextProps.currentMapZoom
-  );
-
-  return (
-    isEqual(prevProps.currentMapCenter, nextProps.currentMapCenter) === true &&
-    prevProps.currentMapZoom === nextProps.currentMapZoom
-  );
-}
-
-function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
+function MyMap() {
   var [animate, setAnimate] = useState(false);
   var [userLocation, setUserLocation] = useState(null);
 
@@ -306,6 +292,6 @@ function MyMap({ currentMapZoom, currentMapCenter, Map, TileLayer }) {
   );
 }
 
-var MemoizedMyMap = React.memo(MyMap, currentMapViewPropsAreEqual);
+// var MemoizedMyMap = React.memo(MyMap, currentMapViewPropsAreEqual);
 
-export default MemoizedMyMap;
+export default MyMap;
