@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { Card, Header, Icon, Grid, Divider } from 'semantic-ui-react';
 import MyHeader from '../components/Header/Header.jsx';
 
-import MyMap from '../components/Map';
+import Map from '../components/Map';
 
 var Dashboard = () => {
   return (
@@ -21,7 +21,7 @@ var Dashboard = () => {
                   Your map!
                 </Header>
               </Divider>
-              <MyMap />
+              <Map />
             </Card.Content>
           </Card>
         </Grid.Column>

@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 
-const MyMap = dynamic(() => import('./MyMap.jsx'), {
+const Map = dynamic(() => import('./MyMap'), {
   ssr: false
 });
 
-export default MyMap;
+export default Map;
