@@ -14,13 +14,13 @@ var Dashboard = () => {
       <Grid container columns={1} stackable style={{ height: '100vh' }}>
         <Grid.Column>
           <MyHeader content="Go find a hill!" margin={'0'} textAlign={'center'} />
-          <TestFile />
           <Card fluid>
             <Card.Content>
               <Divider horizontal>
                 <Header as="h4">
                   <Icon name="map" color="green" />
                   Your map!
+                  <TestFile />
                 </Header>
               </Divider>
               <Map />
