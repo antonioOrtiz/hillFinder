@@ -6,6 +6,7 @@ import { Card, Header, Icon, Grid, Divider } from 'semantic-ui-react';
 import MyHeader from '../components/Header/Header.jsx';
 
 import Map from '../components/Map';
+import TestFile from '../components/Test';
 
 var Dashboard = () => {
   return (
@@ -13,6 +14,7 @@ var Dashboard = () => {
       <Grid container columns={1} stackable style={{ height: '100vh' }}>
         <Grid.Column>
           <MyHeader content="Go find a hill!" margin={'0'} textAlign={'center'} />
+          <TestFile />
           <Card fluid>
             <Card.Content>
               <Divider horizontal>
