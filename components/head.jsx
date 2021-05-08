@@ -8,7 +8,6 @@ const Head = props => {
     <NextHead>
       <meta charSet="UTF-8" />
       <title>{props.title || ''}</title>
-      <link rel="manifest" href="/manifest.json" />
       <meta name="theme-color" content="#80e750" />
       <link
         rel="apple-touch-icon"
@@ -31,6 +30,7 @@ const Head = props => {
       <meta name="msapplication-config" content="/static/icons/browserconfig.xml" />
       <meta name="msapplication-TileColor" content="#2B5797" />
       <meta name="msapplication-tap-highlight" content="no" />
+
       <link
         rel="icon"
         type="image/png"
@@ -45,6 +45,8 @@ const Head = props => {
       />
       <link rel="mask-icon" href="/static/icons/safari-pinned-tab.svg" color="#80e750" />
       <link rel="shortcut icon" href="/static/icons/favicon.ico" />
+      <meta http-equiv="Content-Security-Policy" content="img-src 'self' data:; default-src 'self' https://hillfinder.herokuapp.com/">
+
       <link
         rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
