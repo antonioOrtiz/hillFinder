@@ -46,7 +46,7 @@ function NODE_ENVSetter(ENV) {
   return environment;
 }
 
-var db = NODE_ENVSetter('development');
+var db = NODE_ENVSetter('production');
 var mongoose = require('mongoose');
 
 function errorHandler(err, req, res, next) {
