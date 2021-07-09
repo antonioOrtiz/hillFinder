@@ -96,6 +96,8 @@ function FormComponent({
         }
       })
       .catch(function(error) {
+        console.log('error ', error);
+
         if (error.response.statusText === 'Unauthorized') {
           setUsername('');
           setPassword('');
