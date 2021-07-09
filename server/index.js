@@ -68,7 +68,7 @@ function errorHandler(err, req, res, next) {
 }
 
 async function start() {
-  const dev = process.env.NODE_ENV == 'production';
+  const dev = process.env.NODE_ENV !== 'production';
   const app = nextJS({ dev });
   const server = express();
   // const proxy = createProxyMiddleware(options);
@@ -103,9 +103,8 @@ async function start() {
       extended: false
     })
   );
-  server.use(bodyParser.json());
-  server.use(morgan('dev'));
 
+  server.use(morgan('dev'));
   server.use(cookieParser());
 
   server.use(
