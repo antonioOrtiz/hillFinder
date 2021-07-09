@@ -9,9 +9,6 @@ module.exports = withImages(
     withCSS(
       withSass(
         withPurgeCss({
-          purgeCss: {
-            whitelist: () => ['html', 'body']
-          },
           purgeCssPaths: [
             'pages/**/*',
             'components/**/*',
