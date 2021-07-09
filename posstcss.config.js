@@ -2,7 +2,13 @@ module.exports = {
   plugins: [
     '@fullhuman/postcss-purgecss',
     {
-      content: ['./pages/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
+      content: [
+        './pages/**/*.{js,jsx,ts,tsx}',
+        './components/**/*.{js,jsx,ts,tsx}',
+
+        './node_modules/semantic-ui-css/**/*.{js,jsx,ts,tsx}',
+        './node_modules/semantic-ui-react/**/*.{js,jsx,ts,tsx}'
+      ],
       defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
     },
     'postcss-flexbugs-fixes',
