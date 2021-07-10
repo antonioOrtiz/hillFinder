@@ -9,11 +9,7 @@ module.exports = withImages(
     withCSS(
       withSass(
         withPurgeCss({
-          purgeCssPaths: [
-            'pages/**/*',
-            'components/**/*',
-            'other-components/**/*' // also scan other-components folder
-          ],
+          purgeCssPaths: ['pages/**/*', 'components/**/*'],
           defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
 
           env: {
