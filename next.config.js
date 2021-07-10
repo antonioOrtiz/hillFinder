@@ -14,6 +14,8 @@ module.exports = withImages(
             'components/**/*',
             'other-components/**/*' // also scan other-components folder
           ],
+          defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
+
           env: {
             MONGODB_URI: process.env.MONGODB_URI,
             DEVELOPMENT_DB_DSN: process.env.DEVELOPMENT_DB_DSN,
