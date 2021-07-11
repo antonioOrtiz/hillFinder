@@ -43,13 +43,4 @@
         ],
         "jsx-a11y/label-has-for": "off",
         "jsx-a11y/label-has-associated-control": "off"
-    },
-    "space-before-function-paren": [
-        "error",
-        {
-            "anonymous": "always",
-            "named": "always",
-            "asyncArrow": "always"
-        }
-    ]
-}
+    }}
