@@ -1,3 +1,6 @@
+/*! purgecss start ignore */
+
+
 /* main application styling */
 
 
@@ -213,6 +216,7 @@ input.animate-panning {
 
 /* semantic-ui overriders */
 
-.ui.stacked.segment {
-    padding-bottom: 1.5em;
-}
+.ui.stacked.segment {}
+
+
+/*! purgecss end ignore */
